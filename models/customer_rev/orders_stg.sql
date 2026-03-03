@@ -1,3 +1,7 @@
+{{ 
+    config(materialized='incremental') 
+}}
+
 SELECT
     OrderID,
     OrderDate,
@@ -19,3 +23,7 @@ SELECT
     current_timestamp as dbt_updated_at
 FROM
     {{ source('landing', 'orders') }}
+
+{% if is_incremental() %}
+where ...
+{%% endif %}
